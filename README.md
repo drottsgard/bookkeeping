@@ -1,6 +1,6 @@
 # Bookkeeping
 
-node version 22
+📦 node version 22
 
 Run backend:
 
@@ -29,6 +29,8 @@ npm run dev
 * Backend: api versioning
 * Types structure improvements
 * Fetch incrementally. E.g. when opening the Collapse component
+* Error handling
+* Prevent adding empty account names
 * Frontend ui improvements
     * Only allow one root node open at a time
     * Optimistic UI. E.g. when adding transaction
