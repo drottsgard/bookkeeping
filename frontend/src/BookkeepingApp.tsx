@@ -23,11 +23,7 @@ function BookkeepingApp() {
     return <div>No accounts found</div>;
   }
 
-  return (
-    <>
-      <AccountTree accounts={allAccountsQueryResult.data} />
-    </>
-  );
+  return <AccountTree accounts={allAccountsQueryResult.data} />;
 }
 
 export default BookkeepingApp;
