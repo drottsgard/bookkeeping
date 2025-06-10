@@ -1,7 +1,7 @@
 import db from "../../db";
 import { createAccountFromDbRow } from "../../domains/account";
 
-export function getFullAccounts() {
+export function getAllAccounts() {
   const selectStatement = db.prepare(`
     SELECT id, name, parent_id, balance FROM accounts
   `);

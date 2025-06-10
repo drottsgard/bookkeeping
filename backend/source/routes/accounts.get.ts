@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { getFullAccounts } from "../repositories/accountRepository/getFullAccounts";
+import { getAllAccounts } from "../repositories/accountRepository/getAllAccounts";
 
 export function getAccounts(_: Request, res: Response) {
   try {
-    const accounts = getFullAccounts();
+    const accounts = getAllAccounts();
     res.status(200).json(accounts);
   } catch (exception) {
     console.error("Error fetching accounts", exception);
