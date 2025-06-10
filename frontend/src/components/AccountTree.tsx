@@ -21,6 +21,7 @@ export function AccountTree(props: AccountTreeProps) {
           <RecursiveAccountAccordion accountNode={root} />
         </div>
       ))}
+      <AccountForm label="Add root" />
     </div>
   );
 }
@@ -42,7 +43,7 @@ export function RecursiveAccountAccordion(props: AccountAccordionProps) {
               {props.accountNode.children.length === 0 && (
                 <BalanceForm account={props.accountNode} />
               )}
-              <AccountForm account={props.accountNode} />
+              <AccountForm label="Add child" accountId={props.accountNode.id} />
               {props.accountNode.children.map((child) => (
                 <RecursiveAccountAccordion key={child.id} accountNode={child} />
               ))}

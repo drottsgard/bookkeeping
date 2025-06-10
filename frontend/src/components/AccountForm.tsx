@@ -1,10 +1,10 @@
 import { Input, Space } from "antd";
-import type { AccountTreeNode } from "../domains/account";
 import { useAddAccountMutation } from "../queries/useAddAccountMutation";
 import { useState } from "react";
 
 interface AccountFormProps {
-  account: AccountTreeNode;
+  label: string;
+  accountId?: number;
 }
 
 export function AccountForm(props: AccountFormProps) {
@@ -16,7 +16,7 @@ export function AccountForm(props: AccountFormProps) {
     event.preventDefault();
     addAccountMutation.mutate({
       accountName: newAccountName,
-      parentId: props.account.id,
+      parentId: props.accountId,
     });
     setNewAccountName("");
   };
@@ -24,7 +24,7 @@ export function AccountForm(props: AccountFormProps) {
   return (
     <form onSubmit={handleSubmitAddChildForm}>
       <div className="account-name-container">
-        <label htmlFor="account-name-input">Add child</label>
+        <label htmlFor="account-name-input">{props.label}</label>
         <Space.Compact>
           <Input
             id="account-name-input"
