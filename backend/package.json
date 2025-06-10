@@ -1,5 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "dev": "ts-node-dev source/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
   "dependencies": {
     "better-sqlite3": "^11.10.0",
     "cors": "^2.8.5",
@@ -11,6 +18,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^22.15.30",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.3"
   }
 }
