@@ -1,11 +1,9 @@
-import { useState } from "react";
-
 import "./AccountTree.css";
+import { Collapse } from "antd";
 
-import { useAddAccountMutation } from "../queries/useAddAccountMutation";
-import { useUpdateBalanceMutation } from "../queries/useUpdateBalanceMutation";
 import type { AccountTreeNode } from "../domains/account";
-import { Collapse, Input, InputNumber, Space } from "antd";
+import { BalanceForm } from "./BalanceForm";
+import { AccountForm } from "./AccountForm";
 
 interface AccountTreeProps {
   accounts: AccountTreeNode[];
@@ -28,36 +26,6 @@ export function AccountTree(props: AccountTreeProps) {
 }
 
 export function RecursiveAccountAccordion(props: AccountAccordionProps) {
-  const [newAccountName, setNewAccountName] = useState("");
-  const [newBalance, setNewBalance] = useState(0);
-
-  const addAccountMutation = useAddAccountMutation();
-  const updateBalanceMutation = useUpdateBalanceMutation();
-
-  const handleSubmitAddChildForm = (event: React.FormEvent) => {
-    event.preventDefault();
-    addAccountMutation.mutate({
-      accountName: newAccountName,
-      parentId: props.accountNode.id,
-    });
-    setNewAccountName("");
-  };
-
-  const handleUpdateBalance = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (updateBalanceMutation.isPending) {
-      return;
-    }
-
-    updateBalanceMutation.mutate({
-      accountId: props.accountNode.id,
-      newBalance: newBalance,
-    });
-
-    setNewBalance(0);
-  };
-
   return (
     <Collapse
       items={[
@@ -72,40 +40,9 @@ export function RecursiveAccountAccordion(props: AccountAccordionProps) {
           children: (
             <div className="collapse-container">
               {props.accountNode.children.length === 0 && (
-                <form
-                  onSubmit={handleUpdateBalance}
-                  className="update-balance-form"
-                >
-                  <InputNumber
-                    style={{ width: 200 }}
-                    value={newBalance}
-                    suffix="SEK"
-                    onChange={(value) => setNewBalance(value ?? 0)}
-                  />
-                  <button
-                    type="submit"
-                    disabled={updateBalanceMutation.isPending}
-                  >
-                    Update balance
-                  </button>
-                </form>
+                <BalanceForm account={props.accountNode} />
               )}
-              <form onSubmit={handleSubmitAddChildForm}>
-                <div className="account-name-container">
-                  <label htmlFor="account-name-input">Add child</label>
-                  <Space.Compact>
-                    <Input
-                      id="account-name-input"
-                      type="text"
-                      value={newAccountName}
-                      onChange={(e) => setNewAccountName(e.target.value)}
-                    />
-                    <button type="submit" aria-label="Add child account">
-                      +
-                    </button>
-                  </Space.Compact>
-                </div>
-              </form>
+              <AccountForm account={props.accountNode} />
               {props.accountNode.children.map((child) => (
                 <RecursiveAccountAccordion key={child.id} accountNode={child} />
               ))}
