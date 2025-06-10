@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 
 import { createAccount } from "./routes/accounts.post";
+import { getAccounts } from "./routes/accounts.get";
 
 const app = express();
 app.use(express.json());
@@ -14,6 +15,8 @@ app.get("/", (req, res) => {
 });
 
 app.post("/accounts", createAccount);
+
+app.get("/accounts", getAccounts);
 
 app.listen(port, (error) => {
   if (error) {
