@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./AccountTree.css";
 
 import { useAddAccountMutation } from "../queries/useAddAccountMutation";
+import { useUpdateBalanceMutation } from "../queries/useUpdateBalanceMutation";
 import type { AccountTreeNode } from "../domains/account";
 
 interface AccountTreeProps {
@@ -31,7 +32,10 @@ export function RecursiveAccountAccordion(props: AccountAccordionProps) {
   const [showForm, setShowForm] = useState(false);
 
   const [newAccountName, setNewAccountName] = useState("");
+  const [newBalance, setNewBalance] = useState(0);
+
   const addAccountMutation = useAddAccountMutation();
+  const updateBalanceMutation = useUpdateBalanceMutation();
 
   const handleFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -41,6 +45,13 @@ export function RecursiveAccountAccordion(props: AccountAccordionProps) {
     });
     setNewAccountName("");
     setShowForm(false);
+  };
+
+  const handleUpdateBalance = () => {
+    updateBalanceMutation.mutate({
+      accountId: props.accountNode.id,
+      newBalance: newBalance,
+    });
   };
 
   return (
@@ -65,6 +76,18 @@ export function RecursiveAccountAccordion(props: AccountAccordionProps) {
         <button onClick={() => setIsExpanded(!isExpanded)}>
           {isExpanded ? "Collapse" : "Expand"}
         </button>
+      )}
+      {props.accountNode.children.length === 0 && (
+        <>
+          <input
+            id="new-balance"
+            type="number"
+            value={newBalance}
+            onChange={(e) => setNewBalance(Number(e.target.value))}
+          />
+
+          <button onClick={handleUpdateBalance}>update balance</button>
+        </>
       )}
       {isExpanded &&
         props.accountNode.children.map((node) => (
