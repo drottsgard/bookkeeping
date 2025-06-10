@@ -26,6 +26,8 @@ export function AccountTree(props: AccountTreeProps) {
 }
 
 export function RecursiveAccountAccordion(props: AccountAccordionProps) {
+  const [isExpanded, setIsExpanded] = useState(true);
+
   const [showForm, setShowForm] = useState(false);
 
   const [newAccountName, setNewAccountName] = useState("");
@@ -59,6 +61,15 @@ export function RecursiveAccountAccordion(props: AccountAccordionProps) {
           <button type="submit">Add Account</button>
         </form>
       )}
+      {props.accountNode.children.length > 0 && (
+        <button onClick={() => setIsExpanded(!isExpanded)}>
+          {isExpanded ? "Collapse" : "Expand"}
+        </button>
+      )}
+      {isExpanded &&
+        props.accountNode.children.map((node) => (
+          <RecursiveAccountAccordion key={node.id} accountNode={node} />
+        ))}
     </div>
   );
 }
